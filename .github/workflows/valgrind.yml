@@ -17,8 +17,8 @@ jobs:
         trigger: 'valgrind'
         prefix_only: true
         reaction: rocket
-      env:
-        GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      #env:
+      #  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request.head.sha }}
@@ -28,7 +28,7 @@ jobs:
       run: |
         git clone --recursive https://github.com/RedisAI/RedisAI.git
         cd RedisAI
-        sudo make -C setup
-        bash get_deps.sh cpu
+        sudo make -C opt setup
+        make -C opt fetch CPU=1
         ./opt/readies/bin/getredis -v 6 --valgrind --force
         make -C opt test VALGRIND=1
