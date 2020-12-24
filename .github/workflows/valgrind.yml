@@ -1,0 +1,32 @@
+name: Valgrind
+
+on:
+  pull_request:
+    types: [opened]
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+
+jobs:
+  valgrind:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: khan/pull-request-comment-trigger@master
+      id: check
+      with:
+        trigger: 'valgrind'
+        prefix_only: true
+        reaction: rocket
+    - uses: actions/checkout@v2
+      submodules: 'true'
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+      if: steps.check.outputs.triggered == 'true'
+    - if: steps.check.outputs.triggered == 'true'
+      run: |
+        git clone --recursive https://github.com/RedisAI/RedisAI.git
+        cd RedisAI
+        sudo make -C setup
+        bash get_deps.sh cpu
+        ./opt/readies/bin/getredis -v 6 --valgrind --force
+        make -C opt test VALGRIND=1
