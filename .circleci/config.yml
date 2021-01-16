@@ -68,7 +68,7 @@ workflows:
   version: 2
   welcome:
     jobs:
-      - welcome/run
+      - welcome/run:
           <<: *on-any-branch
   master-job:
     jobs:
