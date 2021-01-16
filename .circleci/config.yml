@@ -1,9 +1,29 @@
 version: 2.1
 
-orbs:
-  welcome: circleci/welcome-orb@0.4.1
+#orbs:
+#  welcome: circleci/welcome-orb@0.4.1
 
 jobs:
+  build-debian:
+    docker:
+      - image: cimg/base:2020.01
+    steps:
+      - checkout
+      - run:
+          name: Debian build
+          command: |
+            echo Debian build
+
+  platform-build:
+    docker:
+      - image: cimg/base:2020.01
+    steps:
+      - checkout
+      - run:
+          name: Platform build
+          command: |
+            echo Platform build
+
   master-job:
     docker:
       - image: cimg/base:2020.01
@@ -64,17 +84,25 @@ on-master-and-version-tags: &on-master-and-version-tags
     tags:
       only: /^v[0-9].*/
 
+platform-build-defs: &platform-build-defs
+  requires:
+    - build-debian
+  <<: *on-master-and-version-tags
+
+after-platform-builds: &after-platform-builds
+  requires:
+    - build-bionic
+
 workflows:
   version: 2
-  welcome:
+  build-jobs:
     jobs:
-      - welcome/run:
+      - build-debian:
           <<: *on-any-branch
-  master-job:
-    jobs:
+      - platform-build:
+          name: build-bionic
+          <<: *platform-build-defs
       - master-job:
           <<: *on-master
-  version-tag-job:
-    jobs:
       - version-tag-job:
           <<: *on-version-tags
