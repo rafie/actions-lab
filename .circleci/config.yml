@@ -50,6 +50,16 @@ jobs:
           command: |
             echo Version tag applied
 
+  deploy-release:
+    docker:
+      - image: cimg/base:2020.01
+    steps:
+      - checkout
+      - run:
+          name: Deploy release
+          command: |
+            echo Deploy release
+
 on-any-branch: &on-any-branch
   filters:
     branches:
@@ -105,4 +115,7 @@ workflows:
       - master-job:
           <<: *on-master
       - version-tag-job:
+          <<: *on-version-tags
+      - deploy-release:
+          <<: *after-platform-builds
           <<: *on-version-tags
