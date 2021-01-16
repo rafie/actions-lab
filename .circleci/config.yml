@@ -78,13 +78,11 @@ on-master: &on-master
   filters:
     branches:
       only: master
-    tags:
-      only: /.*/
 
 on-version-tags: &on-version-tags
   filters:
     branches:
-      only: /.*/
+      ignore: /.*/
     tags:
       only: /^v[0-9].*/
 
