@@ -81,8 +81,8 @@ on-master: &on-master
 
 on-version-tags: &on-version-tags
   filters:
-    branches:
-      ignore: /.*/
+#    branches:
+#      ignore: /.*/
     tags:
       only: /^v[0-9].*/
 
