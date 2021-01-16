@@ -4,6 +4,19 @@ orbs:
   welcome: circleci/welcome-orb@0.4.1
 
 jobs:
+  master-job:
+    docker:
+      - image: cimg/base:2020.01
+    steps:
+      - checkout
+      - run:
+          name: Checkout submodules
+          command: git submodule update --init --recursive
+      - run:
+          name: Master commit message
+          command: |
+            echo Commit applied on master
+
   version-tag-job:
     docker:
       - image: cimg/base:2020.01
@@ -56,6 +69,11 @@ workflows:
   welcome:
     jobs:
       - welcome/run
+          <<: *on-any-branch
+  master-job:
+    jobs:
+      - master-job:
+          <<: *on-master
   version-tag-job:
     jobs:
       - version-tag-job:
