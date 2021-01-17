@@ -86,7 +86,7 @@ on-version-tags: &on-version-tags
     tags:
       only: /^v[0-9].*/
 
-on-master-and-version-tags: &on-master-and-version-tags
+on-version-tags-on-master: &on-version-tags-on-master
   filters:
     branches:
       only: master
@@ -117,4 +117,4 @@ workflows:
           <<: *on-version-tags
       - deploy-release:
           <<: *after-platform-builds
-          <<: *on-version-tags
+          <<: *on-version-tags-on-master
