@@ -96,7 +96,7 @@ on-version-tags-on-master: &on-version-tags-on-master
 platform-build-defs: &platform-build-defs
   requires:
     - build-debian
-  <<: *on-master-and-version-tags
+  <<: *on-version-tags-on-master
 
 after-platform-builds: &after-platform-builds
   requires:
