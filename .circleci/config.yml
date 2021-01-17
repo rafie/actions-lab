@@ -65,7 +65,7 @@ on-any-branch: &on-any-branch
     branches:
       only: /.*/
     tags:
-      ignore: /.*/
+      only: /.*/
 
 never: &never
   filters:
@@ -82,12 +82,16 @@ on-master: &on-master
 on-integration-branch: &on-integration-branch
   filters:
     branches:
-      only: "1.0"
+      only:
+	    - master
+	    - "1.0"
 
 on-version-tags: &on-version-tags
   filters:
     branches:
-      ignore: /.*/
+      only:
+	    - master
+	    - "1.0"
     tags:
       only: /^v[0-9].*/
 
@@ -108,14 +112,7 @@ after-platform-builds: &after-platform-builds
 
 workflows:
   version: 2
-  all-branches:
-    jobs:
-      - build-debian:
-          <<: *on-any-branch
-  integration-branches:  
-    when:
-      and:
-        - equal: [<<pipeline.git.branch>>, 1.0]
+  default:
     jobs:
       - build-debian:
           <<: *on-any-branch
@@ -125,4 +122,3 @@ workflows:
       - deploy-release:
           <<: *after-platform-builds
           <<: *on-version-tags
-  
