@@ -79,6 +79,11 @@ on-master: &on-master
     branches:
       only: master
 
+on-integration-branch: &on-integration-branch
+  filters:
+    branches:
+      only: 1.0
+
 on-version-tags: &on-version-tags
   filters:
     branches:
@@ -113,6 +118,7 @@ workflows:
         - equal: [<<pipeline.git.branch>>, 1.0]
     jobs:
       - build-debian
+          <<: *on-integration-branch
       - platform-build:
           name: build-bionic
           <<: *platform-build-defs
