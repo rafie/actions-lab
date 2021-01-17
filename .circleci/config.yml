@@ -108,11 +108,6 @@ workflows:
     jobs:
       - build-debian:
           <<: *on-any-branch
-      - platform-build:
-          name: build-bionic
-          <<: *platform-build-defs
-      - version-tag-job:
-          <<: *on-version-tags
   integration-branches:  
     when:
       and:
