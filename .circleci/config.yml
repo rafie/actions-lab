@@ -96,7 +96,9 @@ on-version-tags: &on-version-tags
 on-master-and-version-tags: &on-master-and-version-tags
   filters:
     branches:
-      only: master
+      only:
+        - master
+		- "1.0"
     tags:
       only: /^v[0-9].*/
 
