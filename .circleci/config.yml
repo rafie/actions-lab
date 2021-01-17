@@ -98,7 +98,7 @@ on-master-and-version-tags: &on-master-and-version-tags
     branches:
       only:
         - master
-		- "1.0"
+        - "1.0"
     tags:
       only: /^v[0-9].*/
 
