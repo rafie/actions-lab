@@ -103,6 +103,7 @@ on-master-and-version-tags: &on-master-and-version-tags
 platform-build-defs: &platform-build-defs
   requires:
     - build-debian
+  <<: *on-master-and-version-tags
 
 after-platform-builds: &after-platform-builds
   requires:
