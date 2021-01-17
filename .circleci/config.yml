@@ -65,7 +65,7 @@ on-any-branch: &on-any-branch
     branches:
       only: /.*/
     tags:
-      only: /.*/
+      ignore: /.*/
 
 never: &never
   filters:
@@ -79,12 +79,12 @@ on-master: &on-master
     branches:
       only: master
 
-on-integration-branch: &on-integration-branch
+on-integ-branch: &on-integ-branch
   filters:
     branches:
       only:
         - master
-        - "1.0"
+        - /^\d+\.\d+.*$/
 
 on-version-tags: &on-version-tags
   filters:
@@ -96,16 +96,24 @@ on-version-tags: &on-version-tags
 on-master-and-version-tags: &on-master-and-version-tags
   filters:
     branches:
-      only:
-        - master
-        - "1.0"
+      only: master
     tags:
       only: /^v[0-9].*/
+
+on-integ-and-version-tags: &on-integ-and-version-tags
+  filters:
+    branches:
+      only:
+        - master
+        - /^\d+\.\d+.*$/
+    tags:
+      only: /^v[0-9].*/
+
 
 platform-build-defs: &platform-build-defs
   requires:
     - build-debian
-  <<: *on-master-and-version-tags
+  <<: *on-integ-and-version-tags
 
 after-platform-builds: &after-platform-builds
   requires:
