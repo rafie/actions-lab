@@ -82,7 +82,7 @@ on-master: &on-master
 on-integration-branch: &on-integration-branch
   filters:
     branches:
-      only: 1.0
+      only: "1.0"
 
 on-version-tags: &on-version-tags
   filters:
