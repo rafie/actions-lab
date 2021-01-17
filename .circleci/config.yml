@@ -89,9 +89,7 @@ on-integration-branch: &on-integration-branch
 on-version-tags: &on-version-tags
   filters:
     branches:
-      only:
-        - master
-        - "1.0"
+      ignore: /.*/
     tags:
       only: /^v[0-9].*/
 
