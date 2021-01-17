@@ -65,7 +65,7 @@ on-any-branch: &on-any-branch
     branches:
       only: /.*/
     tags:
-      only: /.*/
+      ignore: /.*/
 
 never: &never
   filters:
