@@ -65,7 +65,7 @@ on-any-branch: &on-any-branch
     branches:
       only: /.*/
     tags:
-      ignore: /.*/
+      only: /.*/
 
 never: &never
   filters:
@@ -79,6 +79,13 @@ on-master: &on-master
     branches:
       only: master
 
+on-integration-branch: &on-integration-branch
+  filters:
+    branches:
+      only:
+        - master
+        - "1.0"
+
 on-version-tags: &on-version-tags
   filters:
     branches:
@@ -89,13 +96,16 @@ on-version-tags: &on-version-tags
 on-master-and-version-tags: &on-master-and-version-tags
   filters:
     branches:
-      only: master
+      only:
+        - master
+        - "1.0"
     tags:
       only: /^v[0-9].*/
 
 platform-build-defs: &platform-build-defs
   requires:
     - build-debian
+  <<: *on-master-and-version-tags
 
 after-platform-builds: &after-platform-builds
   requires:
@@ -103,20 +113,13 @@ after-platform-builds: &after-platform-builds
 
 workflows:
   version: 2
-  all-branches:
+  default:
     jobs:
       - build-debian:
           <<: *on-any-branch
-  integration-branches:  
-    when:
-      and:
-        - equal: [<<pipeline.git.branch>>, master]
-    jobs:
-      - build-debian
       - platform-build:
           name: build-bionic
           <<: *platform-build-defs
       - deploy-release:
           <<: *after-platform-builds
           <<: *on-version-tags
-  
