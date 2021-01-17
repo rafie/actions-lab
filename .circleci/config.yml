@@ -117,7 +117,7 @@ workflows:
       and:
         - equal: [<<pipeline.git.branch>>, 1.0]
     jobs:
-      - build-debian
+      - build-debian:
           <<: *on-integration-branch
       - platform-build:
           name: build-bionic
