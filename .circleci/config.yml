@@ -83,15 +83,15 @@ on-integration-branch: &on-integration-branch
   filters:
     branches:
       only:
-	    - master
-	    - "1.0"
+        - master
+        - "1.0"
 
 on-version-tags: &on-version-tags
   filters:
     branches:
       only:
-	    - master
-	    - "1.0"
+        - master
+        - "1.0"
     tags:
       only: /^v[0-9].*/
 
