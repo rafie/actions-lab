@@ -110,7 +110,7 @@ workflows:
   integration-branches:  
     when:
       and:
-        - equal: [<<pipeline.git.branch>>, master]
+        - equal: [<<pipeline.git.branch>>, 1.0]
     jobs:
       - build-debian
       - platform-build:
