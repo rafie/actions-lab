@@ -50,6 +50,16 @@ jobs:
           command: |
             echo Version tag applied
 
+  deploy-snapshot:
+    docker:
+      - image: cimg/base:2020.01
+    steps:
+      - checkout
+      - run:
+          name: Deploy snapshot
+          command: |
+            echo Deploy snapshot
+
   deploy-release:
     docker:
       - image: cimg/base:2020.01
@@ -128,6 +138,9 @@ workflows:
       - platform-build:
           name: build-bionic
           <<: *platform-build-defs
+      - deploy-snapshot:
+          <<: *after-platform-builds
+          <<: *on-integ-branch
       - deploy-release:
           <<: *after-platform-builds
           <<: *on-version-tags
