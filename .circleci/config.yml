@@ -50,6 +50,16 @@ jobs:
           command: |
             echo Version tag applied
 
+  deploy-snapshot:
+    docker:
+      - image: cimg/base:2020.01
+    steps:
+      - checkout
+      - run:
+          name: Deploy snapshot
+          command: |
+            echo Deploy snapshot
+
   deploy-release:
     docker:
       - image: cimg/base:2020.01
@@ -79,12 +89,12 @@ on-master: &on-master
     branches:
       only: master
 
-on-integration-branch: &on-integration-branch
+on-integ-branch: &on-integ-branch
   filters:
     branches:
       only:
         - master
-        - "1.0"
+        - /^\d+\.\d+.*$/
 
 on-version-tags: &on-version-tags
   filters:
@@ -98,14 +108,14 @@ on-master-and-version-tags: &on-master-and-version-tags
     branches:
       only:
         - master
-        - "1.0"
+        - /^\d+\.\d+.*$/
     tags:
       only: /^v[0-9].*/
 
 platform-build-defs: &platform-build-defs
   requires:
     - build-debian
-  <<: *on-master-and-version-tags
+#  <<: *on-master-and-version-tags
 
 after-platform-builds: &after-platform-builds
   requires:
@@ -120,6 +130,9 @@ workflows:
       - platform-build:
           name: build-bionic
           <<: *platform-build-defs
+      - deploy-snapshot:
+          <<: *after-platform-builds
+          <<: *on-integ-branch
       - deploy-release:
           <<: *after-platform-builds
           <<: *on-version-tags
