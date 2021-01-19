@@ -113,7 +113,7 @@ on-integ-and-version-tags: &on-integ-and-version-tags
 platform-build-defs: &platform-build-defs
   requires:
     - build-debian
-  <<: *on-integ-and-version-tags
+#  <<: *on-integ-and-version-tags
 
 after-platform-builds: &after-platform-builds
   requires:
