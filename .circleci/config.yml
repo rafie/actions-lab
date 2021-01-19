@@ -88,6 +88,8 @@ on-master: &on-master
   filters:
     branches:
       only: master
+    tags: ##
+      ignore: /.*/ ##
 
 on-integ-branch: &on-integ-branch
   filters:
@@ -95,6 +97,8 @@ on-integ-branch: &on-integ-branch
       only:
         - master
         - /^\d+\.\d+.*$/
+    tags: ##
+      ignore: /.*/ ##
 
 on-version-tags: &on-version-tags
   filters:
