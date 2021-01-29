@@ -11,6 +11,7 @@ jobs:
   valgrind:
     runs-on: ubuntu-18.04
     steps:
+    - run: echo "::group::Setup"
     - uses: khan/pull-request-comment-trigger@master
       id: check
       with:
@@ -23,11 +24,18 @@ jobs:
         ref: ${{ github.event.pull_request.head.sha }}
         submodules: 'true'
       if: steps.check.outputs.triggered == 'true'
+    - run: echo "::endgroup::"
     - if: steps.check.outputs.triggered == 'true'
       run: |
+        echo "::group::Clone RedisAI"
         git clone --recursive https://github.com/RedisAI/RedisAI.git
+        echo "::endgroup::"
+        echo "::group::Setup RedisAI build"
         cd RedisAI
         sudo make -C opt setup
         make -C opt fetch CPU=1
         ./opt/readies/bin/getredis -v 6 --valgrind --force
+        echo "::endgroup::"
+        echo "::group::Build and test RedisAI"
         make -C opt test VALGRIND=1
+        echo "::endgroup::"
