@@ -16,4 +16,5 @@ jobs:
           echo "Log level: ${{ github.event.inputs.logLevel }}"
           echo "Tags: ${{ github.event.inputs.tags }}"
       - uses: actions/checkout@v1
+      - run: git clone https://github.com/RedisLabsModules/readies.git
       - run: docker build -t docker1 . 
