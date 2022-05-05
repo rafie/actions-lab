@@ -4,4 +4,4 @@ FROM ubuntu:trusty
 WORKDIR /build
 ADD . /build
 
-RUN ./readies/bin/getpy3
+RUN V=2 ./readies/bin/getpy3
