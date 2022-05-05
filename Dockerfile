@@ -1,5 +1,8 @@
 
-FROM ubuntu:jammy
+FROM ubuntu:trusty
 
-RUN apt-get update
-RUN apt-get install -y python3
+WORKDIR . /build
+ADD . /build
+
+RUN git clone https://github.com/RedisLabsModules/readies.git
+RUN ./readies/bin/getpy3
