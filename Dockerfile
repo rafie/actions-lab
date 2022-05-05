@@ -1,7 +1,7 @@
 
 FROM ubuntu:trusty
 
-WORKDIR . /build
+WORKDIR /build
 ADD . /build
 
 RUN ./readies/bin/getpy3
