@@ -1,4 +1,4 @@
-name: CLang
+name: CLang (container)
 
 on:
   workflow_dispatch:
