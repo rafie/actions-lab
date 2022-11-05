@@ -11,27 +11,27 @@ on:
         description: 'Test scenario tags'
 
 jobs:
-  printInputs:
-    runs-on: ubuntu-latest
-    steps:
-    - run: |
-        echo "Log level: ${{ github.event.inputs.logLevel }}"
-        echo "Tags: ${{ github.event.inputs.tags }}"
+#  printInputs:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - run: |
+#        echo "Log level: ${{ github.event.inputs.logLevel }}"
+#        echo "Tags: ${{ github.event.inputs.tags }}"
 
-  clang-test-with-container:
-    runs-on: ubuntu-latest
-    container:
-      image: ubuntu:jammy
-      env:
-        NODE_ENV: development
-      ports:
-        - 80
-      volumes:
-        - lab:/lab
-      options: --cpus 1
-    steps:
-      - name: Check for dockerenv file
-        run: (ls /.dockerenv && echo Found dockerenv) || (echo No dockerenv)
+#  clang-test-with-container:
+#    runs-on: ubuntu-latest
+#    container:
+#      image: ubuntu:jammy
+#      env:
+#        NODE_ENV: development
+#      ports:
+#        - 80
+#      volumes:
+#        - lab:/lab
+#      options: --cpus 1
+#    steps:
+#      - name: Check for dockerenv file
+#        run: (ls /.dockerenv && echo Found dockerenv) || (echo No dockerenv)
 
   clang-test-via-build:
     runs-on: ubuntu-latest
