@@ -15,28 +15,25 @@ jobs:
         OS: ${{ fromJson(inputs.platforms) }}
     container:
       image: ${{ matrix.OS }}
-      volumes:
-        - /build:/build
+#      volumes:
+#        - /lab:/lab
       options: --cpus 2
     steps:
-      - uses: actions/checkout@v3
-        with:
-          repository: RedisLabsModules/readies
-          path: /build/readies
-      - uses: actions/checkout@v3
-        with:
-          repository: RedisBloom/RedisBloom
-          path: /build/RedisBloom
-          submodules: true
-      - name: Get CLang
+      - name: Get git
         run: |
-          cd /build/readies
+          if command -v apt-get 2>&1 /dev/null; then apt-get -qq update; apt-get install -y git; fi
+          if command -v yum 2>&1 /dev/null; then yum install -y git; fi
+      - name: Checkout and build
+        run: |
+          mkdir -p /build
+          cd /build
+          git clone --recursive https://github.com/RedisLabsModules/readies.git
+          git clone --recursive -j8 https://github.com/RedisBloom/RedisBloom.git
+          cd readies
           ./bin/getget
           ./bin/getpy3
           ./bin/getclang --modern
           clang --version
-      - name: Build module
-        run: |
           cd /build/RedisBloom
           ./sbin/setup
           bash -l -c "make CLANG=1"
