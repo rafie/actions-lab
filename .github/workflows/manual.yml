@@ -40,6 +40,7 @@ jobs:
       with:
         submodules: true
     - name: Prerequisites
+      shell: bash --noprofile --norc -Xeo pipefail {0}
       run: |
         git clone --recursive https://github.com/RedisLabsModules/readies.git
         ./readies/bin/getget
@@ -47,6 +48,6 @@ jobs:
     - name: Build container
       run: |
         cd clang-build
-        git clone --recursive -j8 https:/github.com/RedisBloom/RedisBloom.git
+        git clone --recursive -j8 https://github.com/RedisBloom/RedisBloom.git
         ln -s ../readies readies
         docker build .
