@@ -19,17 +19,22 @@ jobs:
 #        - /lab:/lab
       options: --cpus 2
     steps:
-    - name: Build container
-      run: |
-        mkdir -p /build
-        cd /build
-        git clone --recursive https://github.com/RedisLabsModules/readies.git
-        git clone --recursive -j8 https://github.com/RedisBloom/RedisBloom.git
-        cd readies
-        ./bin/getget
-        ./bin/getpy3
-        ./bin/getclang --modern
-        clang --version
-        cd /build/RedisBloom
-        ./sbin/setup
-        bash -l -c "make CLANG=1"
+      - uses: actions/checkout@v3
+      - name: Checkouts
+        run: |
+          mkdir -p /build
+          cd /build
+          git clone --recursive https://github.com/RedisLabsModules/readies.git
+          git clone --recursive -j8 https://github.com/RedisBloom/RedisBloom.git
+      - name: Get CLang
+        run: |
+          cd /build/readies
+          ./bin/getget
+          ./bin/getpy3
+          ./bin/getclang --modern
+          clang --version
+      - name: Build module
+        run: |
+          cd /build/RedisBloom
+          ./sbin/setup
+          bash -l -c "make CLANG=1"
