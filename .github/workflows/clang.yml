@@ -1,0 +1,55 @@
+name: CLang
+
+on:
+  workflow_dispatch:
+    inputs:
+      platforms:
+        description: 'Build platforms'
+        default: '["ubuntu:jammy", "ubuntu:bionic", "centos:7", "rockylinux:8", "debian:buster"]'
+
+jobs:
+#  clang-test-with-container:
+#    runs-on: ubuntu-latest
+#    container:
+#      image: ubuntu:jammy
+#      env:
+#        NODE_ENV: development
+#      ports:
+#        - 80
+#      volumes:
+#        - lab:/lab
+#      options: --cpus 1
+#    steps:
+#      - name: Check for dockerenv file
+#        run: (ls /.dockerenv && echo Found dockerenv) || (echo No dockerenv)
+
+  clang-test-via-build-with-matrix:
+    if: inputs.platforms == ''
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        OS: ${{ fromJson(inputs.platforms) }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Build container
+      run: |
+        cd clang-build
+        git clone --recursive https://github.com/RedisLabsModules/readies.git
+        git clone --recursive -j8 https://github.com/RedisBloom/RedisBloom.git
+        docker build --build-arg OS=${{ matrix.OS }} .
+
+  clang-test-via-build:
+    if: inputs.platforms != ''
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Build container
+      run: |
+        cd clang-build
+        git clone --recursive https://github.com/RedisLabsModules/readies.git
+        git clone --recursive -j8 https://github.com/RedisBloom/RedisBloom.git
+        docker build --build-arg OS=${{ inputs.platforms }} .

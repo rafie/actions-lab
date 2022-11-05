@@ -12,6 +12,7 @@ ADD . /build/
 RUN ./readies/bin/getget
 RUN ./readies/bin/getpy3
 RUN ./readies/bin/getclang --modern
+RUN clang --version
 
 WORKDIR /build/RedisBloom
 
