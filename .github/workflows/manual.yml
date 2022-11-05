@@ -41,12 +41,12 @@ jobs:
         submodules: true
     - name: Prerequisites
       run: |
-        git checkout https://github.com/RedisLabsModules/readies
+        git checkout https://github.com/RedisLabsModules/readies.git
         ./readies/bin/getget
         ./readies/bin/getdocker
     - name: Build container
       run: |
         cd clang-build
-        git checkout https:/github.com/RedisBloom/RedisBloom
+        git checkout https:/github.com/RedisBloom/RedisBloom.git
         ln -s ../readies readies
         docker build .
