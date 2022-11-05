@@ -5,8 +5,8 @@ SHELL ["/bin/bash", "-c"]
 
 ADD . /build/
 
-RUN find .
 RUN ./readies/bin/getget
+RUN ./readies/bin/getpy3
 RUN ./readies/bin/getclang --modern
 RUN set -e ;\
 	cd RedisBloom ;\
