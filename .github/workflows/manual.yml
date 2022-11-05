@@ -1,7 +1,10 @@
 name: Manual
 run-name: Manual
 
-on: 
+on:
+  push:
+    branches:
+      - master
   workflow_dispatch:
     inputs:
       logLevel:
