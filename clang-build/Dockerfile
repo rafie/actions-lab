@@ -12,7 +12,8 @@ ADD . /build/
 RUN ./readies/bin/getget
 RUN ./readies/bin/getpy3
 RUN ./readies/bin/getclang --modern
-RUN set -e ;\
-	cd RedisBloom ;\
-	./sbin/setup ;\
-	make CLANG=1
+
+WORKDIR /build/RedisBloom
+
+RUN ./sbin/setup
+RUN make CLANG=1

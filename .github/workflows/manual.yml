@@ -2,9 +2,9 @@ name: Manual
 run-name: Manual
 
 on:
-  push:
-    branches:
-      - master
+#  push:
+#    branches:
+#      - master
   workflow_dispatch:
     inputs:
       logLevel:
@@ -15,7 +15,7 @@ on:
         description: 'Test scenario tags'
       platforms:
         description: 'Build platforms'
-        default: ''
+        default: '["ubuntu:jammy", "ubuntu:bionic", "centos:7", "rockylinux:8", "debian:buster"]'
 
 jobs:
 #  printInputs:
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        OS: ['ubuntu:jammy', 'ubuntu:bionic', 'centos:7', 'rockylinux:8', 'debian:buster']
+        OS: ${{fromJson(inputs.platforms)}}
     steps:
     - uses: actions/checkout@v3
       with:
