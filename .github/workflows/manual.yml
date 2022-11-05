@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        OS: [ubuntu:jammy, ubuntu:bionic, centos:7, rockylinux:8, debian:buster]
+        OS: ['ubuntu:jammy', 'ubuntu:bionic', 'centos:7', 'rockylinux:8', 'debian:buster']
     steps:
     - uses: actions/checkout@v3
       with:
