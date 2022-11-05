@@ -13,6 +13,9 @@ on:
         default: 'warning'
       tags:
         description: 'Test scenario tags'
+      platforms:
+        description: 'Build platforms'
+        default: ''
 
 jobs:
 #  printInputs:
@@ -37,7 +40,8 @@ jobs:
 #      - name: Check for dockerenv file
 #        run: (ls /.dockerenv && echo Found dockerenv) || (echo No dockerenv)
 
-  clang-test-via-build:
+  clang-test-via-build-with-matrix:
+    if: inputs.platforms == ''
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -46,16 +50,23 @@ jobs:
     - uses: actions/checkout@v3
       with:
         submodules: true
-    #- name: Prerequisites
-    #  run: |
-    #    cd clang-build
-    #    git clone --recursive https://github.com/RedisLabsModules/readies.git
-    #    # ./readies/bin/getget
-    #    # ./readies/bin/getdocker
     - name: Build container
       run: |
         cd clang-build
         git clone --recursive https://github.com/RedisLabsModules/readies.git
         git clone --recursive -j8 https://github.com/RedisBloom/RedisBloom.git
         docker build --build-arg OS=${{ matrix.OS }} .
-        #docker build --build-arg OS=ubuntu:bionic .
+
+  clang-test-via-build:
+    if: inputs.platforms != ''
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Build container
+      run: |
+        cd clang-build
+        git clone --recursive https://github.com/RedisLabsModules/readies.git
+        git clone --recursive -j8 https://github.com/RedisBloom/RedisBloom.git
+        docker build --build-arg OS=${{ inputs.platforms }} .

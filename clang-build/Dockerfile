@@ -5,7 +5,7 @@ FROM ${OS}
 RUN if [ -f /root/.profile ]; then sed -ie 's/mesg n/tty -s \&\& mesg -n/g' /root/.profile; fi
 
 WORKDIR /build
-SHELL ["/bin/bash", "-c"]
+SHELL ["/bin/bash", "-l", "-c"]
 
 ADD . /build/
 
