@@ -17,7 +17,7 @@ jobs:
       image: ${{ matrix.OS }}
 #      volumes:
 #        - /lab:/lab
-      options: --cpus 4
+      options: --cpus 2
     steps:
     - name: Build container
       run: |
