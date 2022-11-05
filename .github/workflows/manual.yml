@@ -40,7 +40,6 @@ jobs:
       with:
         submodules: true
     - name: Prerequisites
-      shell: bash --noprofile --norc -Xeo pipefail {0}
       run: |
         git clone --recursive https://github.com/RedisLabsModules/readies.git
         ./readies/bin/getget
