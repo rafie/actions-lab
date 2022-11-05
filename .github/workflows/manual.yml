@@ -35,6 +35,9 @@ jobs:
 
   clang-test-via-build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        OS: [ubuntu:bionic, ubuntu:jammy, centos:7, rockylinux:8, debian:buster]
     steps:
     - uses: actions/checkout@v3
       with:
@@ -50,4 +53,4 @@ jobs:
         cd clang-build
         git clone --recursive https://github.com/RedisLabsModules/readies.git
         git clone --recursive -j8 https://github.com/RedisBloom/RedisBloom.git
-        docker build .
+        docker build --build-arg OS=${{ matrix.OS }} .

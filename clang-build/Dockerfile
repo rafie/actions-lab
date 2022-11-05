@@ -1,4 +1,6 @@
-FROM ubuntu:jammy
+ARG OS
+
+FROM ${OS}
 
 WORKDIR /build
 SHELL ["/bin/bash", "-c"]
