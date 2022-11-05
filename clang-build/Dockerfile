@@ -3,8 +3,7 @@ FROM ubuntu:jammy
 WORKDIR /build
 SHELL ["/bin/bash", "-c"]
 
-ADD ./readies/ /build/
-ADD ./RedisBloom/ /build/
+ADD . /build/
 
 RUN find .
 RUN ./readies/bin/getget
