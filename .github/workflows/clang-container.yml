@@ -15,17 +15,19 @@ jobs:
         OS: ${{ fromJson(inputs.platforms) }}
     container:
       image: ${{ matrix.OS }}
-#      volumes:
-#        - /lab:/lab
+      volumes:
+        - /build:/build
       options: --cpus 2
     steps:
       - uses: actions/checkout@v3
-      - name: Checkouts
-        run: |
-          mkdir -p /build
-          cd /build
-          git clone --recursive https://github.com/RedisLabsModules/readies.git
-          git clone --recursive -j8 https://github.com/RedisBloom/RedisBloom.git
+        with:
+          repository: RedisLabsModules/readies
+          path: /build/readies
+      - uses: actions/checkout@v3
+        with:
+          repository: RedisBloom/RedisBloom
+          path: /build/RedisBloom
+          submodules: true
       - name: Get CLang
         run: |
           cd /build/readies
